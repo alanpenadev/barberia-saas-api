@@ -1,8 +1,8 @@
 ﻿# Visión y alcance — BarberiaSaasApi
-Nov 10, 2026 · @Alan
+Nov 12, 2026 · @Alan
 
 ## Propósito y cómo leer este documento
-Este documento fija qué se construye y qué queda fuera, y es el entregable que cierra la Fase 0: hasta que lo apruebes no pasamos a la Fase 1.
+Este documento fija qué se construye y qué queda fuera, y es el entregable que cierra la Fase 0.
 Cada elemento lleva una etiqueta para no confundir lo decidido con lo propuesto:
 
 | Etiqueta | Significado |
@@ -48,7 +48,7 @@ El MVP cubre el recorrido completo de una cita, desde que el cliente descubre la
 - Todo lo listado en Ideas futuras, y lo que figura como pendiente para fases posteriores.
 
 ## Decisiones confirmadas
-Son 24 decisiones CONFIRMADAS, tomadas por ti; cuando no diste un motivo, la tabla lo indica.
+Son 30 decisiones CONFIRMADAS, tomadas por ti; cuando no diste un motivo, la tabla lo indica.
 
 | ID | Decisión | Motivo |
 | --- | --- | --- |
@@ -76,9 +76,15 @@ Son 24 decisiones CONFIRMADAS, tomadas por ti; cuando no diste un motivo, la tab
 | D-22 | Un propietario por barbería, que puede tener varias barberías; sin cuentas compartidas; la autorización pregunta en un solo componente si un usuario puede actuar sobre una barbería | No anticipar membresías sin requisito, pero poder evolucionar sin reescribir |
 | D-23 | La cuenta del barbero es opcional (UsuarioId admite vacío), con índice único filtrado sobre (UsuarioId, BarberiaId) donde UsuarioId no sea vacío y EstaActivo = 1 | Funciona sin invitaciones por correo y permite ser barbero en varias barberías |
 | D-24 | El propietario ve las citas y los reportes de los barberos de su barbería; el barbero independiente queda como idea futura | Evitar un concepto comercial sin requisito definido |
+| D-25 | Baja lógica (columna de actividad y fecha de baja) en barberos, servicios y relación barbero–servicio, en lugar de borrar filas| Sin motivo explícito registrado; las citas históricas los referencian |
+| D-26 | La cita referencia al barbero y al servicio con claves directas y repite BarberiaId en claves foráneas compuestas hacia Barbero y Servicio; que el barbero esté autorizado y activo para el servicio se valida en el código | Sin motivo explícito registrado; se analizó que SQL Server impida mezclar barberías en una cita, sin atar el historial a la relación barbero–servicio |
+| D-27 | Las atenciones presenciales ocupan el hueco del barbero, con el mismo cálculo de solapamientos | Comparten la ocupación del horario (tu argumento en D-12) |
+| D-28 | Una atención presencial nace directamente Completada | Sin motivo explícito registrado; es un hecho ya ocurrido |
+| D-29 | Bloquean el hueco las citas Reservada y Completada; Cancelada y NoPresentado lo liberan | Consecuencia de los estados definidos en D-09 |
+| D-30 | El ingreso se atribuye a la fecha del servicio, no a la del momento de marcar la cita | Sin motivo explícito registrado; estadísticas estables por día |
 
-## Propuestas pendientes de aprobación
-Seis propuestas derivan de tus decisiones, pero no las has aprobado de forma explícita; ninguna cuenta como cerrada.
+## Propuestas resueltas
+Las seis propuestas se aprobaron el 10 de noviembre de 2026 y pasaron a la tabla de decisiones como D-25 a D-30; P-02 se aprobó con otra redacción (ver D-26).
 
 | ID | Propuesta | Por qué se propone |
 | --- | --- | --- |
@@ -90,7 +96,7 @@ Seis propuestas derivan de tus decisiones, pero no las has aprobado de forma exp
 | P-06 | El ingreso se atribuye a la fecha del servicio, no a la del momento de marcar la cita | Estadísticas estables por día |
 
 ## Decisiones pendientes
-Quince decisiones siguen PENDIENTES; solo la zona horaria debe cerrarse antes del modelo físico de datos.
+Dieciséis decisiones siguen PENDIENTES; solo la zona horaria debe cerrarse antes del modelo físico de datos.
 
 | ID | Pendiente | Se cierra en |
 | --- | --- | --- |
@@ -109,6 +115,7 @@ Quince decisiones siguen PENDIENTES; solo la zona horaria debe cerrarse antes de
 | Q-13 | Privacidad: normativa de protección de datos del mercado objetivo y conflicto entre conservar el historial y borrar datos personales (anonimización) | Documento de seguridad y privacidad |
 | Q-14 | Verificación de documentos del propietario y nueva revisión tras editar datos de una barbería aprobada | Posterior al MVP |
 | Q-15 | Definición exacta de cada estadística, incluida la de clientes atendidos con atenciones anónimas | Fase 8 |
+| Q-16 | Idioma de los nombres de estados y columnas (inglés o español) | Fase 1 (glosario) |
 
 ## Limitaciones conocidas
 El MVP acepta once LIMITACIONES; las más delicadas son L-01 (abuso del endpoint de reservas) y L-04 (sin notificaciones).
@@ -161,10 +168,13 @@ Estos supuestos técnicos se comprueban en la Fase 3, en tu máquina, con comand
 4. Que la herramienta `dotnet ef` está instalada, para generar el scaffold de Database First.
 
 ## Qué sigue
-Con tu aprobación se cierra la Fase 0 y empieza la Fase 1; para aprobar, necesito que revises tres cosas:
-1. Que cada fila de Decisiones confirmadas refleje lo que decidiste, sobre todo D-07, D-22 y D-23.
-2. Que apruebes, corrijas o rechaces las propuestas P-01 a P-06.
-3. Que aceptes las limitaciones L-01 a L-11 o me indiques cuáles no.
+La Fase 0 queda cerrada con esta versión y empieza la Fase 1, que produce cuatro documentos en este orden:
+1.  Glosario: el significado de cada término del dominio.
+2.  Reglas de negocio, con los diagramas de estados de la cita y de la barbería.
+3.  Requisitos funcionales y no funcionales, con un borrador de la matriz de permisos.
+4.  Modelo conceptual: entidades y relaciones, sin tablas ni tipos de dato.
+La zona horaria (Q-01) sigue pendiente y se cierra antes de terminar la Fase 2.
+Desde esta versión, el repositorio es la fuente de verdad: los cambios posteriores se hacen allí y se commitean.
 
 La Fase 1 produce los documentos de requisitos funcionales y no funcionales, reglas de negocio con diagramas de estados, glosario y modelo conceptual. La zona horaria (Q-01) se cierra antes de terminar la Fase 2.
 Hasta la Fase 3 estos documentos viven aquí; después se exportan a Markdown y pasan a la carpeta `docs/` del repositorio.
