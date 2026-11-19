@@ -2,7 +2,7 @@
 Nov 12, 2026 · @Alan
 
 ## Propósito y cómo leer este documento
-Este documento fija qué se construye y qué queda fuera, y es el entregable que cierra la Fase 0.
+Este documento fija qué se construye y qué queda fuera. Versión 1.2, 18 de noviembre de 2026. La versión 1.1, aprobada el 10 de noviembre de 2026, cerró la Fase 0.
 Cada elemento lleva una etiqueta para no confundir lo decidido con lo propuesto:
 
 | Etiqueta | Significado |
@@ -48,7 +48,7 @@ El MVP cubre el recorrido completo de una cita, desde que el cliente descubre la
 - Todo lo listado en Ideas futuras, y lo que figura como pendiente para fases posteriores.
 
 ## Decisiones confirmadas
-Son 30 decisiones CONFIRMADAS, tomadas por ti; cuando no diste un motivo, la tabla lo indica.
+Son 32 decisiones CONFIRMADAS, tomadas por ti; cuando no diste un motivo, la tabla lo indica.
 
 | ID | Decisión | Motivo |
 | --- | --- | --- |
@@ -68,7 +68,7 @@ Son 30 decisiones CONFIRMADAS, tomadas por ti; cuando no diste un motivo, la tab
 | D-14 | Horario semanal recurrente por barbero, con tramos por día; la disponibilidad se calcula, no se guarda | Cada barbero puede tener sus propios días y turnos |
 | D-15 | La cita congela el precio y la duración del servicio al reservar | Ingresos y horas de fin no cambian si el servicio cambia |
 | D-16 | PrecioAplicado (acordado) e ImporteCobrado (cobrado al completar) son columnas separadas; el ingreso es el importe cobrado de las citas Completada | Que los ingresos reflejen el dinero realmente recibido |
-| D-17 | Toda barbería pasa por revisión previa: estados Pending, Approved, Rejected y Suspended; solo Approved es pública y reservable | Con reserva sin cuenta, una barbería falsa podría recopilar teléfonos |
+| D-17 | Toda barbería pasa por revisión previa: estados EnRevision, Aprobada, Rechazada y Suspendida; solo Aprobada es pública y reservable | Con reserva sin cuenta, una barbería falsa podría recopilar teléfonos |
 | D-18 | No se puede desactivar a un barbero con citas futuras Reservada; el propietario las cancela antes | El propietario responde por los compromisos de su barbería |
 | D-19 | El sistema no cancela citas por su cuenta en el MVP; no existe el origen Sistema | Sin notificaciones, el cliente no se enteraría |
 | D-20 | El cierre voluntario de una barbería no tiene estado propio: el propietario resuelve las citas, desactiva a sus barberos y pide el cierre definitivo al administrador | Mantener el MVP simple |
@@ -82,6 +82,8 @@ Son 30 decisiones CONFIRMADAS, tomadas por ti; cuando no diste un motivo, la tab
 | D-28 | Una atención presencial nace directamente Completada | Sin motivo explícito registrado; es un hecho ya ocurrido |
 | D-29 | Bloquean el hueco las citas Reservada y Completada; Cancelada y NoPresentado lo liberan | Consecuencia de los estados definidos en D-09 |
 | D-30 | El ingreso se atribuye a la fecha del servicio, no a la del momento de marcar la cita | Sin motivo explícito registrado; estadísticas estables por día |
+| D-31 | Tras el cierre definitivo, la barbería queda en estado Suspendida con un motivo que distingue el cierre solicitado de la sanción; no existe un estado propio para el cierre | No alterar D-20 y conservar la trazabilidad de los datos |
+| D-32 | Todos los identificadores (estados, tablas, columnas y clases) van en español y sin tildes ni eñes; los estados de la barbería pasan a EnRevision, Aprobada, Rechazada y Suspendida | Sin motivo explícito registrado; resuelve la pendiente Q-16 |
 
 ## Propuestas resueltas
 Las seis propuestas se aprobaron el 10 de noviembre de 2026 y pasaron a la tabla de decisiones como D-25 a D-30; P-02 se aprobó con otra redacción (ver D-26).
